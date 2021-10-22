@@ -1,0 +1,28 @@
+As if no previous data has been collected - first time
+User starts the application
+it prompts them for the name of their network and the password
+Then it tells them to plug in the Arduino to a usb prompts
+Application runs function which:
+    Checks COM ports for Arduino until it finds one
+    Checks for 5 seconds:
+        if COM port found, exit the loop and move one
+        if not, notify the user that an Arduino can't be found on a COM port and keep checking
+
+    create a serial with the COM port
+    Send wifi information and wait for a response from the Arduino indicating that it can connect to the wifi
+
+    If that response is received, set status to green and save the wifi information to a config file
+    Prompt the user for the rate at which to send data:
+    Send that over Serial, wait for response from Arduino
+    If response received, give green light for Arduino to start connecting
+
+Graphically:
+Tkinter App Side                                    Arduino Side
+                                                    Start Arduino
+App start                                           Try to connect to wifi from FlashStorage - 3 attempts
+20 second wait                                      if not successful, wait for Serial communication (Serial.available())
+Pull up prompt
+Collect SSID and pass ---;SSID:<ssid>,<pass>;-----> Collect information between the two semicolons
+                                over Serial         try to connect to Wifi with this combination - 3 times
+                                                    If still not successful, send message back saying ;ARD-DISCONNECT;
+Wait for response from Arduino
